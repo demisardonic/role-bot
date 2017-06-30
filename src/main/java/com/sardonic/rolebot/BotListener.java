@@ -2,6 +2,7 @@ package com.sardonic.rolebot;
 
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -9,13 +10,17 @@ import net.dv8tion.jda.core.managers.GuildController;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 /**
+ * Core bot class which handles all events, and reading and writing the Role-Channel file.
  * Created by Micky Lindsay  on 6/29/2017.
  */
-public class BotListener extends ListenerAdapter {
+class BotListener extends ListenerAdapter {
 
+    private String path;
     private Guild server;
     private GuildController controller;
     private List<Long> roleIds;
@@ -23,7 +28,8 @@ public class BotListener extends ListenerAdapter {
     private Map<Long, Role> roles;
     private Map<Long, TextChannel> channels;
 
-    public BotListener(JDA jda, String path) throws BotException {
+    BotListener(JDA jda, String path) throws BotException {
+        this.path = path;
 
         if(jda.getGuilds().size() == 1) {
             this.server = jda.getGuilds().get(0);
@@ -47,6 +53,7 @@ public class BotListener extends ListenerAdapter {
         } catch (FileNotFoundException e) {
             throw new BotException(e);
         }
+
     }
 
     @Override
@@ -60,7 +67,12 @@ public class BotListener extends ListenerAdapter {
         if(message.getContent().startsWith("!channels")){
             for (long id : channelsIds) {
                 TextChannel chan = getChannel(id);
-                output.append(chan);
+                if(chan != null){
+                    output.append(chan);
+                }else{
+                    String s = id + " : is not valid channel.";
+                    output.append(s);
+                }
             }
         }else if(message.getContent().startsWith("!inchannel")){
             if(message.getMentionedChannels().size() < 1){
@@ -79,11 +91,15 @@ public class BotListener extends ListenerAdapter {
             }else{
                 Channel mentionedChannel = message.getMentionedChannels().get(0);
                 Role role = getAttachedRole(mentionedChannel);
-                if (!message.getMember().getRoles().contains(role)){
-                    controller.addRolesToMember(message.getMember(), role).queue();
-                    output.append("Done.");
+                if(role != null){
+                    if (!message.getMember().getRoles().contains(role)){
+                        controller.addRolesToMember(message.getMember(), role).queue();
+                        output.append("Done.");
+                    }else{
+                        output.append("You already have that role.");
+                    }
                 }else{
-                    output.append("You already have that role.");
+                    output.append("Channel is not currently being handled.");
                 }
             }
         }else if(message.getContent().startsWith("!take")){
@@ -92,12 +108,26 @@ public class BotListener extends ListenerAdapter {
             }else{
                 Channel mentionedChannel = message.getMentionedChannels().get(0);
                 Role role = getAttachedRole(mentionedChannel);
-                List<Role> hasRoles = message.getMember().getRoles();
-                if (hasRoles.contains(role)){
-                    controller.removeRolesFromMember(message.getMember(), role).queue();
-                    output.append("Done.");
+                if(role != null){
+                    if (message.getMember().getRoles().contains(role)){
+                        controller.removeRolesFromMember(message.getMember(), role).queue();
+                        output.append("Done.");
+                    }else{
+                        output.append("You don't have that role.");
+                    }
                 }else{
-                    output.append("You don't have that role.");
+                    output.append("Channel is not currently being handled.");
+                }
+            }
+        }else if(message.getMember().getPermissions().contains(Permission.MANAGE_CHANNEL)){
+            if(message.getContent().startsWith("!handle")){
+                if(message.getMentionedChannels().size() < 1){
+                    output.append("Please mention a channel.");
+                }else {
+                    Channel channel = message.getMentionedChannels().get(0);
+                    if(!channelsIds.contains(channel.getIdLong())){
+
+                    }
                 }
             }
         }
@@ -140,4 +170,24 @@ public class BotListener extends ListenerAdapter {
         return index < 0 ? null : getChannel(channelsIds.get(index));
     }
 
+    private void beginHandleChannel(){
+
+    }
+
+    private void endHandleChannel(){
+
+    }
+
+    private void updateFile() throws BotException {
+        File f = new File(path);
+        FileWriter fw;
+        try {
+            fw = new FileWriter(f);
+            for (int i = 0; i < roleIds.size(); i++) {
+                fw.write(roleIds.get(i) + " " + channelsIds.get(i) + "\n");
+            }
+        } catch (IOException e) {
+            throw new BotException(e);
+        }
+    }
 }
