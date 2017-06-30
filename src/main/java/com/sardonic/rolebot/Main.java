@@ -28,17 +28,16 @@ public class Main {
 
         JDABuilder builder = new JDABuilder(AccountType.BOT);
         builder.setToken(token);
+        JDA jda;
 
         try {
-            JDA jda = builder.buildBlocking();
-            jda.addEventListener(new BotListener());
-        } catch (InterruptedException e) {
-            throw new BotException(e);
-        } catch (RateLimitedException e) {
-            throw new BotException(e);
-        } catch (LoginException e) {
+            jda = builder.buildBlocking();
+        } catch (Exception e) {
             throw new BotException(e);
         }
 
+        BotListener bot = new BotListener(jda, roleFilePath);
+
+        jda.addEventListener(bot);
     }
 }
