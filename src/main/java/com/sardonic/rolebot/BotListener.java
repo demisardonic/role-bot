@@ -138,12 +138,13 @@ class BotListener extends ListenerAdapter {
                     Channel channel = message.getMentionedChannels().get(0);
                     if (!channelList.contains(channel.getIdLong())) {
                         Role role = controller.createRole().setName(channel.getName()).setMentionable(true).complete();
-                        PermissionOverride perm = channel.getPermissionOverride(server.getPublicRole());
-                        if(perm != null){
-                            perm.delete().complete();
-                        }
-                        channel.createPermissionOverride(server.getPublicRole()).setDeny(Permission.MESSAGE_READ).queue();
+
+                        channel.getPermissionOverride(server.getPublicRole()).getManager().deny(Permission.MESSAGE_READ).queue();
                         channel.createPermissionOverride(role).setAllow(Permission.MESSAGE_READ).queue();
+
+                        roleList.add(new RoleIdentity(channel.getName(), role.getIdLong()));
+                        channelList.add(new ChannelIdentity(channel.getName(), channel.getIdLong()));
+                        updateFile();
                         output.append("Channel is now being handled.");
                     }
                 }
@@ -153,43 +154,43 @@ class BotListener extends ListenerAdapter {
                     output.append("Please include a channel name.");
                 } else {
                     String name = split[1].replaceAll(" ", "-");
-                    try {
-                        Role role = controller.createRole().setName(name).setMentionable(true).complete();
-                        ChannelAction action = controller.createTextChannel(name);
-                        action.addPermissionOverride(server.getPublicRole(), 0, Permission.MESSAGE_READ.getRawValue());
-                        action.addPermissionOverride(role, Permission.MESSAGE_READ.getRawValue(), 0);
-                        Channel channel = action.complete();
+                    if (channelList.contains(name)) {
+                        output.append("Channel already exists.");
+                    } else {
+                        try {
+                            Role role = controller.createRole().setName(name).setMentionable(true).complete();
+                            ChannelAction action = controller.createTextChannel(name);
+                            action.addPermissionOverride(server.getPublicRole(), 0, Permission.MESSAGE_READ.getRawValue());
+                            action.addPermissionOverride(role, Permission.MESSAGE_READ.getRawValue(), 0);
+                            Channel channel = action.complete();
 
-                        roleList.add(new RoleIdentity(name, role.getIdLong()));
-                        channelList.add(new ChannelIdentity(name, channel.getIdLong()));
-                        updateFile();
-                    } catch (PermissionException e) {
-                        output.append("I do not have permission to create channels in this server.");
-                    } catch (Exception e) {
-                        output.append("Failed to create channel");
+                            roleList.add(new RoleIdentity(name, role.getIdLong()));
+                            channelList.add(new ChannelIdentity(name, channel.getIdLong()));
+                            updateFile();
+                        } catch (PermissionException e) {
+                            output.append("I do not have permission to create channels in this server.");
+                        } catch (Exception e) {
+                            output.append("Failed to create channel");
+                        }
                     }
                 }
-            } else if(content.startsWith("!delete")){
+            } else if (content.startsWith("!delete")) {
                 if (message.getMentionedChannels().size() < 1) {
                     output.append("Please mention a channel.");
-                }else{
+                } else {
                     Channel channel = message.getMentionedChannels().get(0);
                     int index = channelList.indexOf(channel.getIdLong());
-                    if(index < 0){
+                    if (index < 0) {
                         output.append("Channel is not currently being handled.");
-                    }else{
+                    } else {
                         Role role = getAttachedRole(channel);
-                        if(role == null){
+                        if (role == null) {
                             output.append("Channel has no attached Role.");
-                        }else{
-                            try {
-                                role.delete().queue();
-                                roleList.remove(index);
-                                channelList.remove(index);
-                                updateFile();
-                            } catch (BotException e) {
-                                e.printStackTrace();
-                            }
+                        } else {
+                            role.delete().queue();
+                            roleList.remove(index);
+                            channelList.remove(index);
+                            updateFile();
                             output.append("Role deleted. Channel can be recovered with !handle <channel name>");
                         }
                     }
@@ -237,7 +238,7 @@ class BotListener extends ListenerAdapter {
         return index < 0 ? null : getChannel(channelList.get(index));
     }
 
-    private void updateFile() throws BotException {
+    private void updateFile() {
         File f = new File(path);
         FileWriter fw;
         try {
@@ -247,7 +248,7 @@ class BotListener extends ListenerAdapter {
             }
             fw.close();
         } catch (IOException e) {
-            throw new BotException(e);
+            throw new RuntimeException(e);
         }
     }
 }
