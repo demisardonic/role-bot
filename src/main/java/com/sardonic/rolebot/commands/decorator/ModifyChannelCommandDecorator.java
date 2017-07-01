@@ -10,14 +10,14 @@ import net.dv8tion.jda.core.entities.Message;
  */
 public class ModifyChannelCommandDecorator extends CommandDecorator {
 
-    protected ModifyChannelCommandDecorator(Command innerCommand) {
+    public ModifyChannelCommandDecorator(Command innerCommand) {
         super(innerCommand);
     }
 
     @Override
     public Message fire(Message command) {
         if (command.getMember().hasPermission(Permission.MANAGE_CHANNEL)){
-            return fire(command);
+            return super.fire(command);
         }
         return null;
     }

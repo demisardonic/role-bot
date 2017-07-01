@@ -16,5 +16,7 @@ public abstract class CommandDecorator extends AbstractCommand{
         this.innerCommand = innerCommand;
     }
 
-    public abstract Message fire(Message command);
+    public Message fire(Message command){
+        return innerCommand.fire(command);
+    };
 }
