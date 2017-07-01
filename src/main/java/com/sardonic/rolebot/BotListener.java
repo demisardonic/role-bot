@@ -19,28 +19,7 @@ class BotListener extends ListenerAdapter {
         }
         Commands.getInstance().trigger(event.getChannel(), message);
 /*
-       if (content.startsWith("!gib")) {
-            Role gibbedRole = null;
-            if (message.getMentionedChannels().size() < 1) {
-                RoleIdentity identity = roleList.find(content.split(" ")[1].trim());
-                if (identity != null) {
-                    gibbedRole = getRole(identity);
-                }
-            } else {
-                Channel mentionedChannel = message.getMentionedChannels().get(0);
-                gibbedRole = getAttachedRole(mentionedChannel);
-            }
-
-            if (gibbedRole != null) {
-                if (!message.getMember().getRoles().contains(gibbedRole)) {
-                    controller.addRolesToMember(message.getMember(), gibbedRole).queue();
-                    output.append("Done.");
-                } else {
-                    output.append("You already have that role.");
-                }
-            }
-
-        } else if (content.startsWith("!take")) {
+       iif (content.startsWith("!take")) {
             if (message.getMentionedChannels().size() < 1) {
                 output.append("Please mention a channel.");
             } else {
