@@ -1,4 +1,4 @@
-package com.sardonic.rolebot;
+package com.sardonic.rolebot.exceptions;
 
 /**
  * Created by Micky Lindsay on 6/29/2017.

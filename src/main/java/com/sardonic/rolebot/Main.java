@@ -1,11 +1,9 @@
 package com.sardonic.rolebot;
 
+import com.sardonic.rolebot.exceptions.BotException;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.exceptions.RateLimitedException;
-
-import javax.security.auth.login.LoginException;
 
 public class Main {
 
