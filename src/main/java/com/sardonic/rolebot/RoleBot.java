@@ -81,7 +81,7 @@ public class RoleBot {
     }
 
     public Guild getServer() {
-        return jda.getGuilds().get(0);
+        return server;
     }
 
     public void updateFile() {
@@ -136,6 +136,9 @@ public class RoleBot {
 
     public ChannelList getChannelList(){
         return channelList;
+    }
+    public RoleList getRoleList(){
+        return roleList;
     }
 
 }
