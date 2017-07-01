@@ -1,22 +1,9 @@
 package com.sardonic.rolebot;
 
-import com.sardonic.rolebot.exceptions.BotException;
-import com.sardonic.rolebot.identity.*;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.*;
+import com.sardonic.rolebot.commands.Commands;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
-import net.dv8tion.jda.core.managers.GuildController;
-import net.dv8tion.jda.core.requests.restaction.ChannelAction;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
 
 /**
  * Core bot class which handles all events, and reading and writing the Role-Channel file.
@@ -24,42 +11,6 @@ import java.util.*;
  */
 class BotListener extends ListenerAdapter {
 
-    private String path;
-    private Guild server;
-    private GuildController controller;
-    private RoleList roleList;
-    private ChannelList channelList;
-    private Map<Long, Role> roles;
-    private Map<Long, TextChannel> channels;
-
-    BotListener(JDA jda, String path) throws BotException {
-        this.path = path;
-
-        if (jda.getGuilds().size() == 1) {
-            this.server = jda.getGuilds().get(0);
-        } else {
-            throw new BotException("Bot is active in more than one server.");
-        }
-        this.controller = new GuildController(server);
-        this.roleList = new RoleList();
-        this.channelList = new ChannelList();
-        this.roles = new HashMap<>();
-        this.channels = new HashMap<>();
-
-        File f = new File(path);
-        try {
-            Scanner scan = new Scanner(f);
-            while (scan.hasNext()) {
-                RoleIdentity role = new RoleIdentity(scan.next(), scan.nextLong());
-                roleList.add(role);
-                ChannelIdentity channel = new ChannelIdentity(scan.next(), scan.nextLong());
-                channelList.add(channel);
-            }
-            scan.close();
-        } catch (FileNotFoundException e) {
-            throw new BotException(e);
-        }
-    }
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
@@ -67,21 +18,11 @@ class BotListener extends ListenerAdapter {
         if (!message.getContent().startsWith("!")) {
             return;
         }
-        String content = message.getContent();
-
+        String content = message.getContent().substring(1);
+        Commands.getInstance().trigger(event.getChannel(), content);
+/*
         MessageBuilder output = new MessageBuilder();
-        if (content.startsWith("!channels")) {
-            for (ChannelIdentity chanIden : channelList) {
-                TextChannel chan = getChannel(chanIden);
-                if (chan != null) {
-                    output.append(chan);
-                    output.append("\n");
-                } else {
-                    String s = chanIden.getId() + " : is not valid channel.";
-                    output.append(s);
-                }
-            }
-        } else if (content.startsWith("!inchannel")) {
+       if (content.startsWith("!inchannel")) {
             if (message.getMentionedChannels().size() < 1) {
                 output.append("Please mention a channel.");
             } else {
@@ -200,55 +141,6 @@ class BotListener extends ListenerAdapter {
         if (!output.isEmpty()) {
             event.getChannel().sendMessage(output.build()).queue();
         }
-    }
-
-    private Role getRole(RoleIdentity identity) {
-        long id = identity.getId();
-        if (roles.containsKey(id)) {
-            return roles.get(id);
-        }
-        Role role = server.getRoleById(id);
-        if (role == null) {
-            return null;
-        }
-        roles.put(id, role);
-        return role;
-    }
-
-    private TextChannel getChannel(ChannelIdentity identity) {
-        long id = identity.getId();
-        if (channels.containsKey(id)) {
-            return channels.get(id);
-        }
-        TextChannel channel = server.getTextChannelById(id);
-        if (channel == null) {
-            return null;
-        }
-        channels.put(id, channel);
-        return channel;
-    }
-
-    private Role getAttachedRole(Channel channel) {
-        int index = channelList.indexOf(channel.getIdLong());
-        return index < 0 ? null : getRole(roleList.get(index));
-    }
-
-    private TextChannel getAttachedChannel(Role role) {
-        int index = roleList.indexOf(role.getIdLong());
-        return index < 0 ? null : getChannel(channelList.get(index));
-    }
-
-    private void updateFile() {
-        File f = new File(path);
-        FileWriter fw;
-        try {
-            fw = new FileWriter(f);
-            for (int i = 0; i < roleList.size(); i++) {
-                fw.write(roleList.get(i) + " " + channelList.get(i) + " ");
-            }
-            fw.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        */
     }
 }
