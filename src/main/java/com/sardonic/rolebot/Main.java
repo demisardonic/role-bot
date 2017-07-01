@@ -1,7 +1,6 @@
 package com.sardonic.rolebot;
 
 import com.sardonic.rolebot.commands.ChannelsCommand;
-import com.sardonic.rolebot.commands.Commands;
 import com.sardonic.rolebot.commands.InChannelCommand;
 import com.sardonic.rolebot.exceptions.BotException;
 import net.dv8tion.jda.core.AccountType;

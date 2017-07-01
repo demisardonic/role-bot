@@ -1,6 +1,5 @@
 package com.sardonic.rolebot;
 
-import com.sardonic.rolebot.commands.Commands;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -20,18 +19,7 @@ class BotListener extends ListenerAdapter {
         }
         Commands.getInstance().trigger(event.getChannel(), message);
 /*
-       if (content.startsWith("!inchannel")) {
-            if (message.getMentionedChannels().size() < 1) {
-                output.append("Please mention a channel.");
-            } else {
-                long mentionedId = message.getMentionedChannels().get(0).getIdLong();
-                Role role = getRole(roleList.get(channelList.indexOf(mentionedId)));
-                List<Member> members = server.getMembersWithRoles(role);
-                for (Member member : members) {
-                    output.append(member.getEffectiveName());
-                }
-            }
-        } else if (content.startsWith("!gib")) {
+       if (content.startsWith("!gib")) {
             Role gibbedRole = null;
             if (message.getMentionedChannels().size() < 1) {
                 RoleIdentity identity = roleList.find(content.split(" ")[1].trim());

@@ -1,5 +1,6 @@
-package com.sardonic.rolebot.commands;
+package com.sardonic.rolebot;
 
+import com.sardonic.rolebot.commands.Command;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 
