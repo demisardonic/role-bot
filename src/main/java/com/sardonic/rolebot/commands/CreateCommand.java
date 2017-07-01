@@ -42,7 +42,7 @@ public class CreateCommand extends AbstractCommand {
                     bot.getRoleList().add(new RoleIdentity(name, role.getIdLong()));
                     bot.getChannelList().add(new ChannelIdentity(name, channel.getIdLong()));
                     bot.updateFile();
-                    output.append("Sucessfully created channel.");
+                    output.append("Successfully created channel.");
                 } catch (PermissionException e) {
                     output.append("I do not have permission to create channels in this server.");
                 } catch (Exception e) {
@@ -51,5 +51,10 @@ public class CreateCommand extends AbstractCommand {
             }
         }
         return output.build();
+    }
+
+    @Override
+    public String getDescription() {
+        return "Creates a new text channel and corresponding role.";
     }
 }

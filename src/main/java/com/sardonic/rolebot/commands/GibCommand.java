@@ -42,4 +42,9 @@ public class GibCommand extends AbstractCommand{
         }
         return output.build();
     }
+
+    @Override
+    public String getDescription() {
+        return "gibs you da roll u wan.";
+    }
 }

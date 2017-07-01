@@ -42,4 +42,9 @@ public class InChannelCommand extends AbstractCommand {
         }
         return output.build();
     }
+
+    @Override
+    public String getDescription() {
+        return "Generates a list of all server members which can access the mentioned server.";
+    }
 }

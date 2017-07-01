@@ -1,6 +1,7 @@
 package com.sardonic.rolebot.commands.decorator;
 
 import com.sardonic.rolebot.commands.Command;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 
@@ -18,7 +19,13 @@ public class ModifyChannelCommandDecorator extends CommandDecorator {
     public Message fire(Message command) {
         if (command.getMember().hasPermission(Permission.MANAGE_CHANNEL)){
             return super.fire(command);
+        }else{
+            return new MessageBuilder().append(getDecoratorDesc()).build();
         }
-        return null;
+    }
+
+    @Override
+    public String getDecoratorDesc() {
+        return "Command requires Manage Channel Permission";
     }
 }

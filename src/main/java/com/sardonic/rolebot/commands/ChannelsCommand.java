@@ -32,4 +32,9 @@ public class ChannelsCommand extends ChannelListCommand{
         }
         return output.build();
     }
+
+    @Override
+    public String getDescription() {
+        return "Generates a list of all channels managed by the bot.";
+    }
 }

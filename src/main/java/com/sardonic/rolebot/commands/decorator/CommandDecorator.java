@@ -9,13 +9,19 @@ import net.dv8tion.jda.core.entities.Message;
  * Subclasses should call super.fire() to ensure the innerCommand is fired.
  * Created by Micky Lindsay on 6/30/2017.
  */
-public class CommandDecorator extends AbstractCommand{
+public abstract class CommandDecorator extends AbstractCommand{
 
     private final Command innerCommand;
 
     CommandDecorator(Command innerCommand) {
         super(innerCommand.getName());
         this.innerCommand = innerCommand;
+    }
+
+    public abstract String getDecoratorDesc();
+
+    public final String getDescription(){
+        return innerCommand.getDescription() + "[" + getDecoratorDesc() + "]";
     }
 
     public Message fire(Message command){

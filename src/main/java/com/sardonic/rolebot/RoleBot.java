@@ -42,8 +42,8 @@ public class RoleBot {
         }
     }
 
-    private JDA jda;
     private final String path;
+    private String trigger;
     private Guild server;
     private GuildController controller;
     private RoleList roleList;
@@ -53,6 +53,7 @@ public class RoleBot {
 
     private RoleBot(JDA jda, String path) throws BotException {
         this.path = path;
+        this.trigger = "!!";
 
         if (jda.getGuilds().size() == 1) {
             this.server = jda.getGuilds().get(0);
@@ -146,4 +147,7 @@ public class RoleBot {
         return controller;
     }
 
+    public String getTrigger() {
+        return trigger;
+    }
 }

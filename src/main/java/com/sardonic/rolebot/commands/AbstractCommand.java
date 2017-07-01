@@ -16,8 +16,15 @@ public abstract class AbstractCommand implements Command {
 
     public abstract Message fire(Message command);
 
+    public abstract String getDescription();
+
     @Override
-    public String getName() {
+    public final String getName() {
         return name;
+    }
+
+    @Override
+    public String toString(){
+        return "**" + name + "**: " + getDescription();
     }
 }

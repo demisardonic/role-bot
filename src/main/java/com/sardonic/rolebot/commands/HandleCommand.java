@@ -46,4 +46,9 @@ public class HandleCommand extends AbstractCommand {
         }
         return output.build();
     }
+
+    @Override
+    public String getDescription() {
+        return "Creates a role for the mentioned channel.";
+    }
 }

@@ -13,7 +13,7 @@ class BotListener extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         Message message = event.getMessage();
-        if (!message.getContent().startsWith("!")) {
+        if (!message.getContent().startsWith(RoleBot.getInstance().getTrigger())) {
             return;
         }
         Commands.getInstance().triggerCommand(event.getChannel(), message);

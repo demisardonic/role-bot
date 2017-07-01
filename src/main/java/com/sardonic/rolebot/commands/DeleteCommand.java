@@ -42,4 +42,9 @@ public class DeleteCommand extends AbstractCommand{
         }
         return output.build();
     }
+
+    @Override
+    public String getDescription() {
+        return "Deletes the role of the mentioned handled channel.";
+    }
 }

@@ -22,4 +22,10 @@ public interface Command {
      * @return name used to fire the command.
      */
     String getName();
+
+    /**
+     * Brief description of the command's action
+     * @return the description
+     */
+    String getDescription();
 }

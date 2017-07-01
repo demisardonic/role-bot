@@ -37,4 +37,9 @@ public class TakeCommand extends AbstractCommand{
         }
         return output.build();
     }
+
+    @Override
+    public String getDescription() {
+        return "Removes the role attached to the mentioned channel from the user.";
+    }
 }

@@ -45,6 +45,7 @@ class Main {
         commands.activateCommand(new ModifyChannelCommandDecorator(new HandleCommand()));
         commands.activateCommand(new ModifyChannelCommandDecorator(new CreateCommand()));
         commands.activateCommand(new ModifyChannelCommandDecorator(new DeleteCommand()));
+        commands.activateCommand(new HelpCommand());
 
         BotListener listener = new BotListener();
         jda.addEventListener(listener);
