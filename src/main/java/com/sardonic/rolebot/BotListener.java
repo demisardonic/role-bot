@@ -19,24 +19,7 @@ class BotListener extends ListenerAdapter {
         }
         Commands.getInstance().trigger(event.getChannel(), message);
 /*
-       iif (content.startsWith("!take")) {
-            if (message.getMentionedChannels().size() < 1) {
-                output.append("Please mention a channel.");
-            } else {
-                Channel mentionedChannel = message.getMentionedChannels().get(0);
-                Role role = getAttachedRole(mentionedChannel);
-                if (role != null) {
-                    if (message.getMember().getRoles().contains(role)) {
-                        controller.removeRolesFromMember(message.getMember(), role).queue();
-                        output.append("Done.");
-                    } else {
-                        output.append("You don't have that role.");
-                    }
-                } else {
-                    output.append("Channel is not currently being handled.");
-                }
-            }
-        } else if (message.getMember().getPermissions().contains(Permission.MANAGE_CHANNEL)) {
+       if (message.getMember().getPermissions().contains(Permission.MANAGE_CHANNEL)) {
             if (content.startsWith("!handle")) {
                 if (message.getMentionedChannels().size() < 1) {
                     output.append("Please mention a channel.");
