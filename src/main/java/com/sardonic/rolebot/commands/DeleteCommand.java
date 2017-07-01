@@ -7,6 +7,8 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.Role;
 
 /**
+ * Deletes the {@link Role} tied to the handled {@link net.dv8tion.jda.core.entities.TextChannel}, and makes the channel visible to @everyone.
+ * Channel can be restored by firing a {@link HandleCommand}.
  * Created by Micky Lindsay on 6/30/2017.
  */
 public class DeleteCommand extends AbstractCommand{

@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 
 /**
+ * Outputs a message listing all of the text channels handled by the bot.
  * Created by Micky Lindsay on 6/30/2017.
  */
 public class ChannelsCommand extends ChannelListCommand{

@@ -7,7 +7,7 @@ import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 
-public class Main {
+class Main {
 
     public static void main(String[] args) throws BotException {
 
@@ -36,15 +36,15 @@ public class Main {
             throw new BotException(e);
         }
 
-        RoleBot.getInstance(jda, roleFilePath);
+        RoleBot.instanciate(jda, roleFilePath);
         Commands commands = Commands.getInstance();
-        commands.addCommand(new ChannelsCommand());
-        commands.addCommand(new InChannelCommand());
-        commands.addCommand(new GibCommand());
-        commands.addCommand(new TakeCommand());
-        commands.addCommand(new ModifyChannelCommandDecorator(new HandleCommand()));
-        commands.addCommand(new ModifyChannelCommandDecorator(new CreateCommand()));
-        commands.addCommand(new ModifyChannelCommandDecorator(new DeleteCommand()));
+        commands.activateCommand(new ChannelsCommand());
+        commands.activateCommand(new InChannelCommand());
+        commands.activateCommand(new GibCommand());
+        commands.activateCommand(new TakeCommand());
+        commands.activateCommand(new ModifyChannelCommandDecorator(new HandleCommand()));
+        commands.activateCommand(new ModifyChannelCommandDecorator(new CreateCommand()));
+        commands.activateCommand(new ModifyChannelCommandDecorator(new DeleteCommand()));
 
         BotListener listener = new BotListener();
         jda.addEventListener(listener);

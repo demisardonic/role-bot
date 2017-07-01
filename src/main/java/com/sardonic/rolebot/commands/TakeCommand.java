@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.Role;
 
 /**
+ * Removes the {@link Role} attached to the mentioned {@link net.dv8tion.jda.core.entities.TextChannel} from the command executing member.
  * Created by Micky Lindsay on 6/30/2017.
  */
 public class TakeCommand extends AbstractCommand{

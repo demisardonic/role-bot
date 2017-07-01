@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.Role;
 
 /**
+ * Dis commend wil gib da role ya wan so u kan reed teh chennal.
  * Created by Micky Lindsay on 6/30/2017.
  */
 public class GibCommand extends AbstractCommand{

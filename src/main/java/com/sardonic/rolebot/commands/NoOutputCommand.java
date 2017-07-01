@@ -3,6 +3,7 @@ package com.sardonic.rolebot.commands;
 import net.dv8tion.jda.core.entities.Message;
 
 /**
+ * Wrapper for commands which do not generate an output message.
  * Created by Micky Lindsay on 6/30/2017.
  */
 public abstract class NoOutputCommand extends AbstractCommand{
@@ -11,11 +12,11 @@ public abstract class NoOutputCommand extends AbstractCommand{
         super(name);
     }
 
-    public abstract void fire();
+    public abstract void outputlessFire(Message command);
 
     @Override
     public Message fire(Message command) {
-        fire();
+        outputlessFire(command);
         return null;
     }
 }

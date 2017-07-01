@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.entities.Role;
 import java.util.List;
 
 /**
+ * Generates a {@link Message} which lists all Guild members who can access the mentioned {@link net.dv8tion.jda.core.entities.TextChannel}.
  * Created by Micky Lindsay on 6/30/2017.
  */
 public class InChannelCommand extends AbstractCommand {

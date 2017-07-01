@@ -12,6 +12,7 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.requests.restaction.ChannelAction;
 
 /**
+ * Creates a {@link net.dv8tion.jda.core.entities.TextChannel} and a corresponding {@link Role}. The channel cannot be viewed by a member, unless they have this role.
  * Created by Micky Lindsay on 6/30/2017.
  */
 public class CreateCommand extends AbstractCommand {
@@ -41,6 +42,7 @@ public class CreateCommand extends AbstractCommand {
                     bot.getRoleList().add(new RoleIdentity(name, role.getIdLong()));
                     bot.getChannelList().add(new ChannelIdentity(name, channel.getIdLong()));
                     bot.updateFile();
+                    output.append("Sucessfully created channel.");
                 } catch (PermissionException e) {
                     output.append("I do not have permission to create channels in this server.");
                 } catch (Exception e) {

@@ -11,6 +11,7 @@ import net.dv8tion.jda.core.entities.PermissionOverride;
 import net.dv8tion.jda.core.entities.Role;
 
 /**
+ * Similar to {@link CreateCommand}, but utilizes an existing {@link net.dv8tion.jda.core.entities.TextChannel}.
  * Created by Micky Lindsay on 6/30/2017.
  */
 public class HandleCommand extends AbstractCommand {

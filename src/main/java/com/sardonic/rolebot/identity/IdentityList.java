@@ -5,6 +5,7 @@ import com.sardonic.rolebot.identity.Identity;
 import java.util.ArrayList;
 
 /**
+ * Effectively and {@link ArrayList} of {@link Identity} objects. Which has O(n) searching based on name and id.
  * Created by Micky Lindsay on 6/30/2017.
  */
 public class IdentityList<E extends Identity> extends ArrayList<E> {
@@ -37,16 +38,7 @@ public class IdentityList<E extends Identity> extends ArrayList<E> {
 
     @Override
     public boolean add(E identity) {
-        if (identity == null) {
-            return false;
-        }
-        if(contains(identity.getName())){
-            return false;
-        }
-        if (contains(identity.getId())){
-            return false;
-        }
-        return super.add(identity);
+        return identity != null && !contains(identity.getId()) && super.add(identity);
     }
 
     public E find(long id){

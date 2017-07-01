@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
+ * Core bot class which stores all of the information utilized by the bot.
  * Created by Micky Lindsay on 6/30/2017.
  */
 public class RoleBot {
@@ -30,7 +31,7 @@ public class RoleBot {
         return ourInstance;
     }
 
-    public static RoleBot getInstance(JDA jda, String path) {
+    public static void instanciate(JDA jda, String path) {
         if (ourInstance == null) {
             try {
                 ourInstance = new RoleBot(jda, path);
@@ -39,11 +40,10 @@ public class RoleBot {
                 System.exit(-1);
             }
         }
-        return ourInstance;
     }
 
     private JDA jda;
-    private String path;
+    private final String path;
     private Guild server;
     private GuildController controller;
     private RoleList roleList;

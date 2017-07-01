@@ -3,17 +3,18 @@ package com.sardonic.rolebot.commands;
 import com.sardonic.rolebot.identity.IdentityList;
 
 /**
+ * Abstract Command which utilizes only a single IdentityList.
  * Created by Micky Lindsay on 6/30/2017.
  */
-public abstract class SingleListCommand<E extends IdentityList> extends AbstractCommand{
-    public E list;
+abstract class SingleListCommand<E extends IdentityList> extends AbstractCommand{
+    private final E list;
 
-    public SingleListCommand(String name, E list){
+    SingleListCommand(String name, E list){
         super(name);
         this.list = list;
     }
 
-    public E getList(){
+    E getList(){
         return list;
     }
 }

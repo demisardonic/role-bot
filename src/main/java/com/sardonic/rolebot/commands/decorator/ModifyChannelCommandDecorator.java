@@ -1,11 +1,11 @@
 package com.sardonic.rolebot.commands.decorator;
 
-import com.sardonic.rolebot.commands.AbstractCommand;
 import com.sardonic.rolebot.commands.Command;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 
 /**
+ * Decorates the given command with the requirement: member executing command requires the manage channel permission.
  * Created by Micky Lindsay on 6/30/2017.
  */
 public class ModifyChannelCommandDecorator extends CommandDecorator {

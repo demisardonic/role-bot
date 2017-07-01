@@ -3,11 +3,12 @@ package com.sardonic.rolebot.identity.impl;
 import com.sardonic.rolebot.identity.Identity;
 
 /**
+ * 'String, Long' tuple implementation.
  * Created by Micky Lindsay on 6/30/2017.
  */
 public class IdentityImpl implements Identity {
-    private String name;
-    private long id;
+    private final String name;
+    private final long id;
 
     protected IdentityImpl(String name, long id){
         this.name = name;
@@ -40,15 +41,6 @@ public class IdentityImpl implements Identity {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (this == obj) {
-            return true;
-        }
-        if (this.getClass() != obj.getClass()) {
-            return false;
-        }
-        return hashCode() == obj.hashCode();
+        return obj != null && (this == obj || this.getClass() == obj.getClass() && hashCode() == obj.hashCode());
     }
 }
