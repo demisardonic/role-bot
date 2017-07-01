@@ -11,6 +11,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.managers.GuildController;
+import net.dv8tion.jda.core.managers.GuildManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,12 +27,12 @@ import java.util.Scanner;
 public class RoleBot {
     private static RoleBot ourInstance;
 
-    public static RoleBot getInstance(){
+    public static RoleBot getInstance() {
         return ourInstance;
     }
 
-    public static RoleBot getInstance(JDA jda, String path){
-        if (ourInstance == null){
+    public static RoleBot getInstance(JDA jda, String path) {
+        if (ourInstance == null) {
             try {
                 ourInstance = new RoleBot(jda, path);
             } catch (BotException e) {
@@ -134,11 +135,16 @@ public class RoleBot {
         return index < 0 ? null : getChannel(channelList.get(index));
     }
 
-    public ChannelList getChannelList(){
+    public ChannelList getChannelList() {
         return channelList;
     }
-    public RoleList getRoleList(){
+
+    public RoleList getRoleList() {
         return roleList;
+    }
+
+    public GuildController getController() {
+        return controller;
     }
 
 }

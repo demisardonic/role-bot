@@ -1,6 +1,7 @@
 package com.sardonic.rolebot;
 
 import com.sardonic.rolebot.commands.ChannelsCommand;
+import com.sardonic.rolebot.commands.GibCommand;
 import com.sardonic.rolebot.commands.InChannelCommand;
 import com.sardonic.rolebot.exceptions.BotException;
 import net.dv8tion.jda.core.AccountType;
@@ -37,8 +38,10 @@ public class Main {
         }
 
         RoleBot.getInstance(jda, roleFilePath);
-        Commands.getInstance().addCommand(new ChannelsCommand());
-        Commands.getInstance().addCommand(new InChannelCommand());
+        Commands commands = Commands.getInstance();
+        commands.addCommand(new ChannelsCommand());
+        commands.addCommand(new InChannelCommand());
+        commands.addCommand(new GibCommand());
         BotListener listener = new BotListener();
 
         jda.addEventListener(listener);
