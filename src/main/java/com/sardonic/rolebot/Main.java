@@ -43,6 +43,8 @@ public class Main {
         commands.addCommand(new GibCommand());
         commands.addCommand(new TakeCommand());
         commands.addCommand(new ModifyChannelCommandDecorator(new HandleCommand()));
+        commands.addCommand(new ModifyChannelCommandDecorator(new CreateCommand()));
+        commands.addCommand(new ModifyChannelCommandDecorator(new DeleteCommand()));
 
         BotListener listener = new BotListener();
         jda.addEventListener(listener);
