@@ -136,10 +136,15 @@ class BotListener extends ListenerAdapter {
                     output.append("Please mention a channel.");
                 } else {
                     Channel channel = message.getMentionedChannels().get(0);
-                    Role role;
                     if (!channelList.contains(channel.getIdLong())) {
-                        //role = controller.createRole().setName(channel.getName()).complete();
-
+                        Role role = controller.createRole().setName(channel.getName()).setMentionable(true).complete();
+                        PermissionOverride perm = channel.getPermissionOverride(server.getPublicRole());
+                        if(perm != null){
+                            perm.delete().complete();
+                        }
+                        channel.createPermissionOverride(server.getPublicRole()).setDeny(Permission.MESSAGE_READ).queue();
+                        channel.createPermissionOverride(role).setAllow(Permission.MESSAGE_READ).queue();
+                        output.append("Channel is now being handled.");
                     }
                 }
             } else if (content.startsWith("!create")) {
