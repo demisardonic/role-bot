@@ -18,10 +18,8 @@ class BotListener extends ListenerAdapter {
         if (!message.getContent().startsWith("!")) {
             return;
         }
-        String content = message.getContent().substring(1);
-        Commands.getInstance().trigger(event.getChannel(), content);
+        Commands.getInstance().trigger(event.getChannel(), message);
 /*
-        MessageBuilder output = new MessageBuilder();
        if (content.startsWith("!inchannel")) {
             if (message.getMentionedChannels().size() < 1) {
                 output.append("Please mention a channel.");

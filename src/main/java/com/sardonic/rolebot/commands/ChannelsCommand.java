@@ -16,7 +16,7 @@ public class ChannelsCommand extends ChannelListCommand{
     }
 
     @Override
-    public Message fire(String argument) {
+    public Message fire(Message command) {
         RoleBot bot = RoleBot.getInstance();
         MessageBuilder output = new MessageBuilder();
         for (ChannelIdentity chanIden : getList()) {

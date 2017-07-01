@@ -13,7 +13,7 @@ public abstract class AbstractCommand implements Command {
         this.name = name;
     }
 
-    public abstract Message fire(String argument);
+    public abstract Message fire(Message command);
 
     @Override
     public String getName() {

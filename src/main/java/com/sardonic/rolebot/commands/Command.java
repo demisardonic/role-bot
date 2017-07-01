@@ -7,7 +7,7 @@ import net.dv8tion.jda.core.entities.Message;
  */
 public interface Command {
 
-    Message fire(String argument);
+    Message fire(Message command);
 
     String getName();
 }

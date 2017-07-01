@@ -31,20 +31,12 @@ public class Commands {
         return activeCommands.remove(name);
     }
 
-    public void trigger(TextChannel channel, String command) {
-        String[] parts = command.split(" ", 2);
-        String name = "";
-        String argument = "";
-        if(parts.length > 0){
-            name = parts[0];
-            if(parts.length > 1){
-                argument = parts[1];
-            }
-        }
+    public void trigger(TextChannel channel, Message command) {
+        String name = command.getContent().split(" ")[0].substring(1);
 
         Command c = activeCommands.get(name);
         if (c != null) {
-            Message output = c.fire(argument);
+            Message output = c.fire(command);
             if (output != null) {
                 channel.sendMessage(output).queue();
             }
