@@ -1,9 +1,7 @@
 package com.sardonic.rolebot;
 
-import com.sardonic.rolebot.commands.ChannelsCommand;
-import com.sardonic.rolebot.commands.GibCommand;
-import com.sardonic.rolebot.commands.InChannelCommand;
-import com.sardonic.rolebot.commands.TakeCommand;
+import com.sardonic.rolebot.commands.*;
+import com.sardonic.rolebot.commands.decorator.ModifyChannelCommandDecorator;
 import com.sardonic.rolebot.exceptions.BotException;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -44,6 +42,7 @@ public class Main {
         commands.addCommand(new InChannelCommand());
         commands.addCommand(new GibCommand());
         commands.addCommand(new TakeCommand());
+        commands.addCommand(new ModifyChannelCommandDecorator(new HandleCommand()));
 
         BotListener listener = new BotListener();
         jda.addEventListener(listener);
