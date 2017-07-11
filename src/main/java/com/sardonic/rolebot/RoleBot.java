@@ -6,19 +6,18 @@ import com.sardonic.rolebot.identity.ChannelList;
 import com.sardonic.rolebot.identity.RoleIdentity;
 import com.sardonic.rolebot.identity.RoleList;
 import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.Channel;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.managers.GuildController;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 /**
  * Core bot class which stores all of the information utilized by the bot.
@@ -26,12 +25,14 @@ import java.util.Scanner;
  */
 public class RoleBot {
     private static RoleBot ourInstance;
+    private static String clientId;
 
     public static RoleBot getInstance() {
         return ourInstance;
     }
 
-    public static void instanciate(JDA jda, String path) {
+    public static void instantiate(JDA jda, String path, String id) {
+        clientId = id;
         if (ourInstance == null) {
             try {
                 ourInstance = new RoleBot(jda, path);
@@ -49,11 +50,13 @@ public class RoleBot {
     private RoleList roleList;
     private ChannelList channelList;
     private Map<Long, Role> roles;
+    private Map<Integer, Role> colorRoles;
     private Map<Long, TextChannel> channels;
 
     private RoleBot(JDA jda, String path) throws BotException {
         this.path = path;
         this.trigger = "!!";
+
 
         if (jda.getGuilds().size() == 1) {
             this.server = jda.getGuilds().get(0);
@@ -64,6 +67,7 @@ public class RoleBot {
         this.roleList = new RoleList();
         this.channelList = new ChannelList();
         this.roles = new HashMap<>();
+        this.colorRoles = new HashMap<>();
         this.channels = new HashMap<>();
 
         File f = new File(path);
@@ -125,6 +129,10 @@ public class RoleBot {
         return channel;
     }
 
+    public Role getColorRole(int color){
+        return colorRoles.get(color & 0xffffff);
+    }
+
     public Role getAttachedRole(Channel channel) {
         int index = channelList.indexOf(channel.getIdLong());
         return index < 0 ? null : getRole(roleList.get(index));
@@ -149,5 +157,13 @@ public class RoleBot {
 
     public String getTrigger() {
         return trigger;
+    }
+
+    public Member getBotMember(){
+        return server.getMemberById(clientId);
+    }
+
+    public Role getBotRole(){
+        return getBotMember().getRoles().stream().filter(role -> role.isManaged()).findAny().get();
     }
 }

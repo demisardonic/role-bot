@@ -15,7 +15,7 @@ public abstract class NoOutputCommand extends AbstractCommand{
     public abstract void outputlessFire(Message command);
 
     @Override
-    public Message fire(Message command) {
+    final public Message fire(Message command) {
         outputlessFire(command);
         return null;
     }

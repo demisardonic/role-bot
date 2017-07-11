@@ -13,12 +13,15 @@ class Main {
 
         String token = "";
         String roleFilePath = "role.txt";
+        String clientId = "";
 
         for (int i = 0; i < args.length; i++) {
             if(args[i].equals("-token")){
                 token = args[++i];
             }else if(args[i].equals("-roles")){
                 roleFilePath = args[++i];
+            }else if (args[i].equals("-id")){
+                clientId = args[++i];
             }
         }
 
@@ -36,12 +39,14 @@ class Main {
             throw new BotException(e);
         }
 
-        RoleBot.instanciate(jda, roleFilePath);
+        RoleBot.instantiate(jda, roleFilePath, clientId);
         Commands commands = Commands.getInstance();
         commands.activateCommand(new ChannelsCommand());
         commands.activateCommand(new InChannelCommand());
         commands.activateCommand(new GibCommand());
         commands.activateCommand(new TakeCommand());
+        commands.activateCommand(new ColorCommand());
+        commands.activateCommand(new ModifyChannelCommandDecorator(new HandleCommand()));
         commands.activateCommand(new ModifyChannelCommandDecorator(new HandleCommand()));
         commands.activateCommand(new ModifyChannelCommandDecorator(new CreateCommand()));
         commands.activateCommand(new ModifyChannelCommandDecorator(new DeleteCommand()));
