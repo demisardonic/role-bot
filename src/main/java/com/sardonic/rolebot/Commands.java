@@ -30,7 +30,7 @@ public class Commands {
      *
      * @param command {@link Command} to activate
      */
-    public void activateCommand(Command command) {
+    public void registerCommand(Command command) {
         activeCommands.put(command.getName(), command);
     }
 
@@ -40,7 +40,7 @@ public class Commands {
      * @param command {@link Command} to deactivate
      * @return
      */
-    public Command deactivateCommand(Command command) {
+    public Command deregisterCommand(Command command) {
         return activeCommands.remove(command.getName());
     }
 

@@ -41,17 +41,17 @@ class Main {
 
         RoleBot.instantiate(jda, roleFilePath, clientId);
         Commands commands = Commands.getInstance();
-        commands.activateCommand(new ChannelsCommand());
-        commands.activateCommand(new InChannelCommand());
-        commands.activateCommand(new GibCommand());
-        commands.activateCommand(new TakeCommand());
-        commands.activateCommand(new ColorCommand());
-        commands.activateCommand(new ModifyChannelCommandDecorator(new HandleCommand()));
-        commands.activateCommand(new ModifyChannelCommandDecorator(new HandleCommand()));
-        commands.activateCommand(new ModifyChannelCommandDecorator(new CreateCommand()));
-        commands.activateCommand(new ModifyChannelCommandDecorator(new DeleteCommand()));
-        commands.activateCommand(new HelpCommand());
-        commands.activateCommand(new SimpleMessageCommand("henlo", "Henlo you stinky user.", "Just says henlo."));
+        commands.registerCommand(new ChannelsCommand());
+        commands.registerCommand(new InChannelCommand());
+        commands.registerCommand(new GibCommand());
+        commands.registerCommand(new TakeCommand());
+        commands.registerCommand(new ColorCommand());
+        commands.registerCommand(new ModifyChannelCommandDecorator(new HandleCommand()));
+        commands.registerCommand(new ModifyChannelCommandDecorator(new HandleCommand()));
+        commands.registerCommand(new ModifyChannelCommandDecorator(new CreateCommand()));
+        commands.registerCommand(new ModifyChannelCommandDecorator(new DeleteCommand()));
+        commands.registerCommand(new HelpCommand());
+        commands.registerCommand(new SimpleMessageCommand("henlo", "Henlo you stinky user.", "Just says henlo."));
 
         BotListener listener = new BotListener();
         jda.addEventListener(listener);

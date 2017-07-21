@@ -1,6 +1,5 @@
 package com.sardonic.rolebot.commands;
 
-import com.sardonic.rolebot.commands.AbstractCommand;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Message;
 
@@ -13,7 +12,7 @@ public abstract class MessageCommand extends AbstractCommand{
         super(name);
     }
 
-    public abstract void buildMessage(Message command, MessageBuilder builder);
+    protected abstract void buildMessage(Message command, MessageBuilder builder);
 
     @Override
     public final Message fire(Message command) {
