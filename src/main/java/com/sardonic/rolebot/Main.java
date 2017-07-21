@@ -51,6 +51,7 @@ class Main {
         commands.activateCommand(new ModifyChannelCommandDecorator(new CreateCommand()));
         commands.activateCommand(new ModifyChannelCommandDecorator(new DeleteCommand()));
         commands.activateCommand(new HelpCommand());
+        commands.activateCommand(new SimpleMessageCommand("henlo", "Henlo you stinky user.", "Just says henlo."));
 
         BotListener listener = new BotListener();
         jda.addEventListener(listener);
