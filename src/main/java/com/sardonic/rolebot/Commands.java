@@ -1,6 +1,7 @@
 package com.sardonic.rolebot;
 
 import com.sardonic.rolebot.commands.Command;
+import com.sardonic.rolebot.commands.MultiTrigger;
 import com.sardonic.rolebot.logger.Logger;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -36,6 +37,12 @@ public class Commands {
      * @param command {@link Command} to activate
      */
     public void registerCommand(Command command) {
+        if(command instanceof MultiTrigger){
+            for(String trigger : ((MultiTrigger)command).getTriggers()){
+                activeCommands.put(trigger, command);
+            }
+            return;
+        }
         activeCommands.put(command.getName(), command);
     }
 

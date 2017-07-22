@@ -2,6 +2,7 @@ package com.sardonic.rolebot;
 
 import com.sardonic.rolebot.commands.*;
 import com.sardonic.rolebot.commands.decorator.ModifyChannelCommandDecorator;
+import com.sardonic.rolebot.commands.decorator.MultiTriggerDecorator;
 import com.sardonic.rolebot.exceptions.BotException;
 import com.sardonic.rolebot.logger.IncomingLogger;
 import com.sardonic.rolebot.logger.Logger;
@@ -49,7 +50,11 @@ class Main {
         };
 
         RoleBot.instantiate(jda, roleFilePath, clientId);
+
         Commands commands = Commands.getInstance();
+
+        commands.setLogger(logger);
+
         commands.registerCommand(new ChannelsCommand());
         commands.registerCommand(new InChannelCommand());
         commands.registerCommand(new GibCommand());
@@ -61,7 +66,8 @@ class Main {
         commands.registerCommand(new ModifyChannelCommandDecorator(new DeleteCommand()));
         commands.registerCommand(new HelpCommand());
         commands.registerCommand(new SimpleMessageCommand("henlo", "Henlo you stinky user.", "Just says henlo."));
-        commands.setLogger(logger);
+        commands.registerCommand(new MultiTriggerDecorator(new SimpleMessageCommand(null, "This should trigger on multiple messages"), "test1", "test2"));
+
 
         BotListener listener = new BotListener();
         jda.addEventListener(listener);
