@@ -1,6 +1,7 @@
 package com.sardonic.rolebot;
 
 import com.sardonic.rolebot.commands.Command;
+import com.sardonic.rolebot.logger.Logger;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 
@@ -13,6 +14,9 @@ import java.util.Map;
  * Created by Micky Lindsay on 6/30/2017.
  */
 public class Commands {
+
+    private Logger logger;
+
     private static final Commands ourInstance = new Commands();
 
     public static Commands getInstance() {
@@ -23,6 +27,7 @@ public class Commands {
 
     private Commands() {
         activeCommands = new HashMap<>();
+        logger = null;
     }
 
     /**
@@ -46,10 +51,30 @@ public class Commands {
 
     /**
      * Returns a list of all currently activated commands.
+     *
      * @return
      */
     public Collection<Command> getActiveCommands() {
         return activeCommands.values();
+    }
+
+    /**
+     * Changes the logger which is called when an incoming message is received and when an outgoing message is generated.
+     * <p>Set to <code>null</code> to disable logging.</p>
+     *
+     * @param logger
+     */
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
+
+    /**
+     * Returns the logger which is called on incoming and outgoing message.
+     * <p>Returns <code>null</code> if logging is not being used.</p>
+     * @return
+     */
+    public Logger getLogger() {
+        return logger;
     }
 
     /**
@@ -63,7 +88,15 @@ public class Commands {
         String name = message.getContent().split(" ")[0].substring(RoleBot.getInstance().getTrigger().length());
         Command c = activeCommands.get(name);
         if (c != null) {
+
+            if (logger != null) {
+                logger.logIncomingMessage(message);
+            }
             Message output = c.fire(message);
+            if (logger != null) {
+                logger.logOutgoingMessage(output);
+            }
+
             if (output != null) {
                 channel.sendMessage(output).queue();
             }

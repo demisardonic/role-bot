@@ -3,9 +3,12 @@ package com.sardonic.rolebot;
 import com.sardonic.rolebot.commands.*;
 import com.sardonic.rolebot.commands.decorator.ModifyChannelCommandDecorator;
 import com.sardonic.rolebot.exceptions.BotException;
+import com.sardonic.rolebot.logger.IncomingLogger;
+import com.sardonic.rolebot.logger.Logger;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.entities.Message;
 
 class Main {
 
@@ -38,6 +41,12 @@ class Main {
         } catch (Exception e) {
             throw new BotException(e);
         }
+        Logger logger = new IncomingLogger() {
+            @Override
+            public void logIncomingMessage(Message message) {
+                System.out.println(message.getMember().getEffectiveName() + ": " + message.getContent());
+            }
+        };
 
         RoleBot.instantiate(jda, roleFilePath, clientId);
         Commands commands = Commands.getInstance();
@@ -52,6 +61,7 @@ class Main {
         commands.registerCommand(new ModifyChannelCommandDecorator(new DeleteCommand()));
         commands.registerCommand(new HelpCommand());
         commands.registerCommand(new SimpleMessageCommand("henlo", "Henlo you stinky user.", "Just says henlo."));
+        commands.setLogger(logger);
 
         BotListener listener = new BotListener();
         jda.addEventListener(listener);
