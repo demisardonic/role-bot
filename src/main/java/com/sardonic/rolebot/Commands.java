@@ -2,9 +2,11 @@ package com.sardonic.rolebot;
 
 import com.sardonic.rolebot.commands.Command;
 import com.sardonic.rolebot.commands.MultiTrigger;
+import com.sardonic.rolebot.commands.PrivateCommand;
 import com.sardonic.rolebot.logger.Logger;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.User;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -91,7 +93,7 @@ public class Commands {
      * @param channel {@link TextChannel} which the {@link Command} is fired from.
      * @param message {@link Message} which fired the {@link Command}
      */
-    void triggerCommand(TextChannel channel, Message message) {
+    void triggerCommand(TextChannel channel, User author, Message message) {
         String name = message.getContent().split(" ")[0].substring(RoleBot.getInstance().getTrigger().length());
         Command c = activeCommands.get(name);
         if (c != null) {
@@ -105,7 +107,12 @@ public class Commands {
             }
 
             if (output != null) {
-                channel.sendMessage(output).queue();
+                if(c instanceof PrivateCommand) {
+                    //Send messages like help through DM
+                    author.openPrivateChannel().queue(privateChannel -> {privateChannel.sendMessage(output).queue();});
+                }else{
+                    channel.sendMessage(output).queue();
+                }
             }
         }
     }

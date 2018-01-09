@@ -10,7 +10,7 @@ import java.util.Collection;
 /**
  * Created by Micky Lindsay on 7/1/2017.
  */
-public class HelpCommand extends AbstractCommand{
+public class HelpCommand extends PrivateCommand{
     public HelpCommand() {
         super("help");
     }

@@ -65,9 +65,6 @@ class Main {
         commands.registerCommand(new ModifyChannelCommandDecorator(new CreateCommand()));
         commands.registerCommand(new ModifyChannelCommandDecorator(new DeleteCommand()));
         commands.registerCommand(new HelpCommand());
-        commands.registerCommand(new SimpleMessageCommand("henlo", "Henlo you stinky user.", "Just says henlo."));
-        commands.registerCommand(new MultiTriggerDecorator(new SimpleMessageCommand(null, "This should trigger on multiple messages"), "test1", "test2"));
-
 
         BotListener listener = new BotListener();
         jda.addEventListener(listener);
